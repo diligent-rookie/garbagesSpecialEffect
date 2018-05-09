@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{padding:0;margin:0;}
+        body{
+            background-color:#999;
+        }
+        .box{
+            width: 1200px;
+            padding-right:40px;
+            height: 500px;
+            background-color:#fff;
+            margin:50px auto;
+        }
+        .garbage{
+            width: 500px;
+            margin:100px 0;
+        }
+        .garbage h3{
+            font-size:40px;
+            font-weight:normal;
+            line-height:60px;
+            text-align:center;
+            color:orangered;
+        }
+        .garbage div{
+            width: 200px;
+            height: 100px;
+            font:50px/100px microsoft yahei;
+            color:#fff;
+            text-align:center;
+        }
+        .one{
+            background-color: #cc6608;
+            position:absolute;
+            left:80px;
+            top:190px;
+            z-index:0;
+        }
+        .two{
+            background-color: #336562;
+            position:absolute;
+            left:330px;
+            top:190px;
+            z-index:0;
+        }
+        .three{
+            background-color: #78151c;
+            position:absolute;
+            left:80px;
+            top:400px;
+            z-index:0;
+        }
+        .four{
+            background-color: #921a58;
+            position:absolute;
+            left:330px;
+            top:400px;
+            z-index:0;
+        }
+        .trash{
+            width: 700px;
+            height: 400px;
+            position:absolute;
+            left:570px;
+            top:150px;
+            font:40px/400px 华文行楷;
+            text-align:center;
+            color: #d5eadf;
+            background-color:aqua;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="garbage">
+        <h3>仿垃圾篓</h3>
+        <div class="one">1</div>
+        <div class="two">2</div>
+        <div class="three">3</div>
+        <div class="four">4</div>
+    </div>
+    <div class="trash">向右移动完全进入此处则删除</div>
+</div>
+<script>
+
+    //拖拽效果
+    function fn(ele1,ele2){
+        var m=ele2.offsetLeft;
+        var n=ele2.offsetTop;
+        ele2.onmousedown=function(ev){
+            this.style.zIndex=9999;
+            ev=ev||event;
+            var x=ev.clientX-ele2.offsetLeft;
+            var y=ev.clientY-ele2.offsetTop;
+            document.onmousemove=function(ev){
+                ev=ev||event;
+                var xx=ev.clientX-x;
+                var yy=ev.clientY-y;
+                ele2.style.left=xx+"px";
+                ele2.style.top=yy+"px";
+                if(ele2.offsetTop+ele2.offsetHeight<ele1.offsetTop||ele2.offsetLeft+ele2.offsetWidth<ele1.offsetLeft||ele2.offsetTop>ele1.offsetTop+ele1.offsetHeight||ele2.offsetLeft>ele1.offsetLeft+ele1.offsetWidth){
+                    ele2.style.opacity=1;
+                }
+                else{
+                    ele2.style.opacity=0.8;
+                }
+                document.onmouseup=function(){
+                    if(ele2.offsetLeft<ele1.offsetLeft||ele2.offsetTop<ele1.offsetTop){
+                        ele2.style.left=m+"px";
+                        ele2.style.top=n+"px";
+                    }else{
+                        ele2.style.display="none";
+                    }
+                    document.onmousemove=document.onmouseup=null;
+                }
+                return false;
+            }
+        }
+    }
+    var oDiv=document.getElementsByTagName("div")[0];
+    var oGarbage=oDiv.children[0];
+    var Garbages=oGarbage.getElementsByTagName("div");
+    var oTrash=oDiv.children[1];
+    for(var i=0;i<Garbages.length;i++){
+        fn(oTrash,Garbages[i]);
+    }
+
+</script>
+</body>
+</html>
